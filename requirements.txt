@@ -1,0 +1,21 @@
+# Core dependencies
+openpyxl==3.1.2          # Работа с Excel файлами (.xlsx)
+xlrd==2.0.1              # Работа с старыми Excel файлами (.xls)
+pandas==2.1.4            # Обработка данных
+
+# Email handling
+python-dotenv==1.0.0     # Загрузка переменных окружения
+jinja2==3.1.2            # Шаблонизатор для писем
+
+# Utilities
+colorlog==6.8.0          # Цветное логирование
+python-dateutil==2.8.2   # Работа с датами
+tqdm==4.66.1             # Прогресс-бары
+
+# Testing
+pytest==7.4.3
+pytest-cov==4.1.0
+
+# Code quality
+black==23.12.1
+flake8==7.0.0

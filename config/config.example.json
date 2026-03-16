@@ -1,0 +1,64 @@
+{
+  "smtp": {
+    "server": "smtp.gmail.com",
+    "port": 587,
+    "use_tls": true,
+    "use_ssl": false,
+    "timeout": 60,
+    "username": "zeroprg@gmail.com",
+    "password": "your-app-password",
+    "from_email": "your-email@gmail.com",
+    "from_name": "Ваше Имя"
+  },
+  "paths": {
+    "excel_folder": "data",
+    "attachments_folder": "attachments",
+    "logs_folder": "logs",
+    "templates_folder": "templates"
+  },
+  "email_settings": {
+    "subject": "Информационное письмо",
+    "template_file": "email_template.html",
+    "attachment_files": [],
+    "batch_size": 10,
+    "delay_between_emails": 2
+  },
+  "excel_settings": {
+    "email_column": "email",
+    "name_column": "name",
+    "company_column": "company",
+    "skip_header": true,
+    "sheet_name": null
+  },
+  "vacation_settings": {
+    "file": "Отпуска.xlsx",
+    "sheet_name": "Sheet1",
+    "employee_column": "ФИО сотрудника",
+    "email_column": "email работника",
+    "months": ["Январь","Февраль","Март","Апрель","Май","Июнь","Июль","Август","Сентябрь","Октябрь","Ноябрь","Декабрь"],
+    "year": 2026
+  },
+  "notifications": {
+    "preapproval_offset_days": 21,
+    "deadline_offset_days": 8,
+    "approval_deadline_days": 7,
+    "manager_email_column": "email руководителя IT DDC",
+    "fm_email_column": "email ФМ супервайзера",
+    "preapproval_template": "preapproval.html",
+    "deadline_template": "deadline.html",
+    "transfer_template": "transfer.html",
+    "application_template": "application.txt",
+    "standard_attachment": "standard_application.pdf",
+    "send_only_due": true
+  },
+  "logging": {
+    "level": "INFO",
+    "format": "%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+    "file": "logs/app.log",
+    "console": true
+  },
+  "retry_settings": {
+    "max_retries": 3,
+    "retry_delay": 5
+  }
+}
