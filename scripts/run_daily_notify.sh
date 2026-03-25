@@ -31,18 +31,18 @@ mkdir -p "$(dirname "$LOG_FILE")"
 # Защита от параллельных запусков через flock
 exec 9>"$LOCK_FILE"
 if ! flock -n 9; then
-  echo "$(date '+%Y-%m-%d %H:%M:%S') Another instance is running; exiting" >> "$LOG_FILE"
+  echo "$(date '+%Y-%m-%d %H:%M:%S') Another instance is running; exiting" | tee -a "$LOG_FILE"
   exit 0
 fi
 
-echo "$(date '+%Y-%m-%d %H:%M:%S') === Starting daily vacation notifications ===" >> "$LOG_FILE"
+echo "$(date '+%Y-%m-%d %H:%M:%S') === Starting daily vacation notifications ===" | tee -a "$LOG_FILE"
 
 "$PYTHON_EXEC" src/cli_notify.py \
   --config "$CONFIG_FILE" \
   --send \
   --preview-dir logs/email_previews \
-  >> "$LOG_FILE" 2>&1
+  2>&1 | tee -a "$LOG_FILE"
 
-EXIT_CODE=$?
-echo "$(date '+%Y-%m-%d %H:%M:%S') === Finished with exit code $EXIT_CODE ===" >> "$LOG_FILE"
+EXIT_CODE=${PIPESTATUS[0]}
+echo "$(date '+%Y-%m-%d %H:%M:%S') === Finished with exit code $EXIT_CODE ===" | tee -a "$LOG_FILE"
 exit $EXIT_CODE
