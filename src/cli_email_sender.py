@@ -51,9 +51,17 @@ def main():
     paths = cfg.get('paths', {})
     templates_dir = paths.get('templates_folder', 'templates')
 
-    # allow overrides from env (safe way to provide creds in CI)
-    smtp_cfg['username'] = os.environ.get('SMTP_USERNAME', smtp_cfg.get('username'))
-    smtp_cfg['password'] = os.environ.get('SMTP_PASSWORD', smtp_cfg.get('password'))
+    env_overrides = {
+        'server':     os.environ.get('SMTP_SERVER'),
+        'port':       os.environ.get('SMTP_PORT'),
+        'username':   os.environ.get('SMTP_USERNAME'),
+        'password':   os.environ.get('SMTP_PASSWORD'),
+        'from_email': os.environ.get('SMTP_FROM_EMAIL'),
+        'from_name':  os.environ.get('SMTP_FROM_NAME'),
+    }
+    for key, val in env_overrides.items():
+        if val is not None:
+            smtp_cfg[key] = int(val) if key == 'port' else val
     if args.from_name:
         smtp_cfg['from_name'] = args.from_name
     if args.from_email:

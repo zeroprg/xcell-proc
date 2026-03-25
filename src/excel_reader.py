@@ -6,7 +6,6 @@ import os
 import re
 from typing import List, Dict, Optional
 import pandas as pd
-import openpyxl
 from pathlib import Path
 import logging
 
@@ -22,11 +21,8 @@ class ExcelReader:
         
         Args:
             config: Словарь с настройками из конфигурационного файла.
-                Если в `config['excel_settings']` отсутствуют ключи
-                `email_column`, `name_column` или `company_column`,
-                будет предпринята попытка автоматически определить их
-                по первому Excel-файлу в папке, указанной в
-                `config['paths']['excel_folder']`.
+                Требует наличия ключей `email_column`, `name_column` и
+                `company_column` в `config['excel_settings']`.
         """
         self.config = config
         self.excel_settings = config.get('excel_settings', {})
@@ -187,7 +183,6 @@ class ExcelReader:
                 return str(value).strip() if pd.notna(value) else ''
         
         return ''
-        return None
     
     def read_all_files(self, folder_path: str) -> List[Dict]:
         """

@@ -1,3 +1,4 @@
+import re
 import smtplib
 from email.message import EmailMessage
 from typing import List, Optional
@@ -19,6 +20,10 @@ class EmailSender:
         tmpl = self.env.get_template(template_name)
         return tmpl.render(**context)
 
+    @staticmethod
+    def _is_html(text: str) -> bool:
+        return bool(re.search(r'<\s*(html|body|div|p|table|head)\b', text, re.IGNORECASE))
+
     def compose_message(self, subject: str, to: List[str], cc: List[str], body: str, attachments: Optional[List[str]] = None) -> EmailMessage:
         msg = EmailMessage()
         msg['Subject'] = subject
@@ -26,7 +31,10 @@ class EmailSender:
         msg['To'] = ', '.join(to)
         if cc:
             msg['Cc'] = ', '.join(cc)
-        msg.set_content(body)
+        if self._is_html(body):
+            msg.set_content(body, subtype='html')
+        else:
+            msg.set_content(body)
 
         for a in attachments or []:
             p = Path(a)
@@ -42,22 +50,12 @@ class EmailSender:
     def send(self, subject: str, to: List[str], cc: List[str], body: str, attachments: Optional[List[str]] = None, dry_run: bool = True, preview_dir: Optional[str] = None):
         msg = self.compose_message(subject, to, cc, body, attachments)
 
-        # Attach files
-        for a in attachments or []:
-            p = Path(a)
-            if not p.exists():
-                logger.warning(f'Attachment not found: {a}')
-                continue
-            with p.open('rb') as fh:
-                data = fh.read()
-            msg.add_attachment(data, maintype='application', subtype='octet-stream', filename=p.name)
-
         # if preview requested, write .eml to preview_dir for debugging
         if preview_dir:
             pdir = Path(preview_dir)
             pdir.mkdir(parents=True, exist_ok=True)
-            # filename safe employee/subject
-            fname = f"{datetime.now().strftime('%Y%m%d%H%M%S')}_{subject[:40].replace(' ','_')}.eml"
+            safe_subj = re.sub(r'[^\w\-]', '_', subject[:40])
+            fname = f"{datetime.now().strftime('%Y%m%d%H%M%S')}_{safe_subj}.eml"
             out = pdir / fname
             with out.open('wb') as fh:
                 fh.write(msg.as_bytes())

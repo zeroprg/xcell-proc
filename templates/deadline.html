@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Дедлайн подачи заявления</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .header {
+            background-color: #FF9800;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            border-radius: 5px 5px 0 0;
+        }
+        .content {
+            background-color: #f9f9f9;
+            padding: 30px;
+            border: 1px solid #ddd;
+        }
+        .warning {
+            background-color: #fff3e0;
+            border-left: 4px solid #FF9800;
+            padding: 12px 16px;
+            margin: 16px 0;
+        }
+        .footer {
+            background-color: #333;
+            color: white;
+            padding: 15px;
+            text-align: center;
+            font-size: 12px;
+            border-radius: 0 0 5px 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Срочно: дедлайн подачи заявления на отпуск</h1>
+    </div>
+
+    <div class="content">
+        <p>Здравствуйте, {{ employee }}!</p>
+
+        <p>Напоминаем, что приближается крайний срок подачи заявления на отпуск.</p>
+
+        <div class="warning">
+            <p><strong>Дата начала отпуска:</strong> {{ first_date }}</p>
+            <p><strong>Крайний срок подачи заявления:</strong> {{ deadline_date }}</p>
+        </div>
+
+        <p>Если вы ещё не подали заявление на отпуск, пожалуйста, сделайте это незамедлительно.</p>
+
+        <p>Если ваши планы изменились и вы не планируете брать отпуск в указанные даты,
+        пожалуйста, сообщите об этом вашему руководителю и в отдел кадров.</p>
+
+        <p>Во вложении — бланк заявления на отпуск.</p>
+
+        <p>С уважением,<br>
+        Отдел кадров</p>
+    </div>
+
+    <div class="footer">
+        <p>Это автоматическое уведомление. Пожалуйста, не отвечайте на данное письмо.</p>
+    </div>
+</body>
+</html>
